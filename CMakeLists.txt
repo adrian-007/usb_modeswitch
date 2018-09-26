@@ -66,12 +66,11 @@ target_link_libraries(${USB_MODESWITCH_TARGET}
 find_program(TCLSH_EXE tclsh PATHS
     ${CMAKE_INSTALL_FULL_SBINDIR}
     ${CMAKE_INSTALL_FULL_BINDIR}
-    /usr/bin
-    /usr/sbin
     NO_DEFAULT_PATH
 )
 
 if(TCLSH_EXE)
+    message("-- Found Tcl interpreter at ${TCLSH_EXE}")
     configure_file(assets/usb_modeswitch.tcl.in ${CMAKE_BINARY_DIR}/usb_modeswitch_dispatcher)
 
     install(PROGRAMS
@@ -79,6 +78,7 @@ if(TCLSH_EXE)
         DESTINATION ${CMAKE_INSTALL_FULL_SBINDIR}
     )
 else()
+    message("-- Tcl interpreter not found, linking with static interpreter")
     set(TCLSH_EXE "/usr/bin/tclsh")
     configure_file(assets/usb_modeswitch.tcl.in assets/usb_modeswitch.tcl)
 
