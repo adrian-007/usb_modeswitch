@@ -69,7 +69,11 @@ find_program(TCLSH_EXE tclsh PATHS
     NO_DEFAULT_PATH
 )
 
-if(TCLSH_EXE)
+if(CMAKE_USE_LOCAL_TCL_INTERPRETER)
+    if(NOT TCLSH_EXE)
+        message(FATAL_ERROR Cannot find local Tcl interpreter)
+    endif()
+
     message("-- Found Tcl interpreter at ${TCLSH_EXE}")
     configure_file(assets/usb_modeswitch.tcl.in ${CMAKE_BINARY_DIR}/usb_modeswitch_dispatcher)
 
@@ -78,7 +82,7 @@ if(TCLSH_EXE)
         DESTINATION ${CMAKE_INSTALL_FULL_SBINDIR}
     )
 else()
-    message("-- Tcl interpreter not found, linking with static interpreter")
+    message("-- Linking with static Tcl interpreter")
     set(TCLSH_EXE "/usr/bin/tclsh")
     configure_file(assets/usb_modeswitch.tcl.in assets/usb_modeswitch.tcl)
 
