@@ -516,7 +516,7 @@ int main(int argc, char **argv)
 	}
 
 	if (verbose)
-		libusb_set_debug(ctx, 3);
+		libusb_set_option(ctx, LIBUSB_OPTION_LOG_LEVEL, LIBUSB_LOG_LEVEL_WARNING);
 
 	if (mbim) {
 		printf("%d\n", findMBIMConfig(DefaultVendor, DefaultProduct, searchMode) );

@@ -1,4 +1,4 @@
-#!/usr/bin/tclsh
+#!@TCLSH_EXE@
 
 # Wrapper (tcl) for usb_modeswitch, called from
 # /lib/udev/rules.d/40-usb_modeswitch.rules
