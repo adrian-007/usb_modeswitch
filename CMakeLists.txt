@@ -44,7 +44,7 @@ endfunction()
 find_path(libusb_INCLUDES NAMES libusb.h PATH_SUFFIXES include libusb libusb-1.0)
 find_library(libusb_LIBS NAMES usb-1.0 usb)
 
-if (NOT libusb_LIBS)
+if(NOT libusb_LIBS)
     message(FATAL_ERROR Cannot find libusb)
 endif()
 
@@ -71,12 +71,12 @@ find_program(TCLSH_EXE tclsh PATHS
     NO_DEFAULT_PATH
 )
 
-if (TCLSH_EXE)
+if(TCLSH_EXE)
     configure_file(assets/usb_modeswitch.tcl.in ${CMAKE_BINARY_DIR}/usb_modeswitch_dispatcher)
 
     install(PROGRAMS
         ${CMAKE_BINARY_DIR}/usb_modeswitch_dispatcher
-        DESTINATION ${CMAKE_INSTALL_SBINDIR}
+        DESTINATION ${CMAKE_INSTALL_FULL_SBINDIR}
     )
 else()
     set(TCLSH_EXE "/usr/bin/tclsh")
@@ -86,7 +86,7 @@ else()
     find_path(jimtcl_INCLUDES NAMES jim.h)
     find_library(jimtcl_LIBS NAMES jim)
 
-    if (NOT jimtcl_LIBS)
+    if(NOT jimtcl_LIBS)
         message(FATAL_ERROR Cannot find jimtcl)
     endif()
 
@@ -108,43 +108,43 @@ else()
     )
 
     install(TARGETS ${USB_MODESWITCH_DISPATCHER_TARGET}
-        DESTINATION ${CMAKE_INSTALL_SBINDIR}
+        DESTINATION ${CMAKE_INSTALL_FULL_SBINDIR}
     )
 endif()
 
 install(TARGETS ${USB_MODESWITCH_TARGET}
-    DESTINATION ${CMAKE_INSTALL_SBINDIR}
+    DESTINATION ${CMAKE_INSTALL_FULL_SBINDIR}
 )
 
 install(DIRECTORY
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/usb_modeswitch
+    DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/usb_modeswitch
 )
 
 install(FILES
     assets/usb_modeswitch.conf
-    DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}
+    DESTINATION ${CMAKE_INSTALL_FULL_SYSCONFDIR}
 )
 
 install(PROGRAMS
     assets/usb_modeswitch.sh
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/udev
+    DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/udev
     RENAME usb_modeswitch
 )
 
 install(FILES
     assets/man/usb_modeswitch.1
     assets/man/usb_modeswitch_dispatcher.1
-    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    DESTINATION ${CMAKE_INSTALL_FULL_MANDIR}/man1
 )
 
-if (EXISTS ${CMAKE_INSTALL_FULL_SYSCONFDIR}/systemd)
+if(EXISTS ${CMAKE_INSTALL_FULL_SYSCONFDIR}/systemd)
     install(FILES
         assets/usb_modeswitch@.service
-        DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/systemd/system
+        DESTINATION ${CMAKE_INSTALL_FULL_SYSCONFDIR}/systemd/system
     )
 elseif(EXISTS ${CMAKE_INSTALL_FULL_SYSCONFDIR}/init AND EXISTS ${CMAKE_INSTALL_FULL_SBINDIR}/init)
     install(FILES
         assets/usb-modeswitch-upstart.conf
-        DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/init
+        DESTINATION ${CMAKE_INSTALL_FULL_SYSCONFDIR}/init
     )
 endif()
